@@ -1,17 +1,3 @@
-# from bs4 import BeautifulSoup
-# import requests
-
-# # Fetch the HTML: Use a library like requests to fetch the HTML content of the webpage:
-# url = 'https://coinmarketcap.com'
-# response = requests.get(url)
-# html_content = response.text
-
-# # Create a BeautifulSoup Object: Parse the HTML content using BeautifulSoup:
-# soup = BeautifulSoup(html_content, 'html.parser')
-# elements = soup.find_all(class_="sc-4984dd93-0 kKpPOn")
-# for element in elements:
-#     print(element.text)
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from time import sleep
@@ -24,8 +10,7 @@ def slow_scroll(driver):
     while True:
         # Scroll down a small amount
         driver.execute_script("window.scrollTo(0, " + str(current_scroll_position) + ");")
-        current_scroll_position += 100  # Adjust the scroll speed by changing this value
-        sleep(0.5)  # Adjust the sleep time for slower scrolling
+        current_scroll_position += 200  # Adjust the scroll speed by changing this value
         # Check if the bottom of the page is reached
         if current_scroll_position >= driver.execute_script("return document.body.scrollHeight"):
             break
