@@ -31,7 +31,6 @@ slow_scroll(driver)
 
 # Find elements with the specified class name
 # coin_name_elements = driver.find_elements(By.CLASS_NAME, "sc-4984dd93-0.kKpPOn")
-# coin_position_number = driver.find_elements(By.CLASS_NAME, "sc-4984dd93-0.iWSjWE")
 
 table = driver.find_elements(By.TAG_NAME, "tbody")
 full_table = []
