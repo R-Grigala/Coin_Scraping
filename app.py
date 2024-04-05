@@ -36,24 +36,29 @@ driver = webdriver.Chrome(options=option)
 driver.set_window_size(2000, 800)
 
 
-twitter_urls_list = []
-# Find table elements
 def check_twitter_exist(site_url):
-    # Fetch the HTML using Selenium
-    driver.get(site_url)
-    socials_elements = driver.find_elements(By.CLASS_NAME, "sc-f70bb44c-0.sc-7f0f401-0.jSheWZ")
-    social_href = ""  # Initialize social_href outside the loop
-    for social_element in socials_elements:
-        social_text = social_element.text.split("\n")[-1]
-        if social_text == "Twitter":
-            social_href = social_element.find_element(By.TAG_NAME, 'a').get_attribute("href")
-            break  # Stop the loop once Twitter link is found
-    return social_href  # Return social_href at the end
+    try:
+        # Fetch the HTML using Selenium
+        driver.get(site_url)
+        socials_elements = driver.find_elements(By.CLASS_NAME, "sc-f70bb44c-0.sc-7f0f401-0.jSheWZ")
+        social_href = ""  # Initialize social_href outside the loop
+        for social_element in socials_elements:
+            social_text = social_element.text.split("\n")[-1]
+            if social_text == "Twitter":
+                social_href = social_element.find_element(By.TAG_NAME, 'a').get_attribute("href")
+                break  # Stop the loop once Twitter link is found
+        return social_href  # Return social_href at the end
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return ""
 
-twitter_url = check_twitter_exist("https://coinmarketcap.com/currencies/ethereum/")
+twitter_urls_list = []
+urls = ['https://coinmarketcap.com/currencies/bitcoin/', 'https://coinmarketcap.com/currencies/ethereum/']
+for url in urls:
+    twitter_url = check_twitter_exist(url)
+    twitter_urls_list.append(twitter_url)
 
-twitter_urls_list.append(twitter_url)
 print(twitter_urls_list)
-
+# ['', 'https://twitter.com/ethereum', 'https://twitter.com/tether_to', 'https://twitter.com/bnbchain', 'https://twitter.com/solana', 'https://twitter.com/circle', 'https://twitter.com/Ripple', 'https://twitter.com/dogecoin', 'https://twitter.com/cardano']
 # Quit the browser
 driver.quit()
