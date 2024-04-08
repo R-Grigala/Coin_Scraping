@@ -27,38 +27,50 @@
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import threading
 
-# Launch a headless Chrome browser using Selenium
-option = webdriver.ChromeOptions()
-option.add_argument("--headless")
-option.add_argument("--no-sandbox")
-driver = webdriver.Chrome(options=option)
-driver.set_window_size(2000, 800)
-
-
+twitter_urls_list = []
+# Function to check if Twitter link exists on the given site_url
 def check_twitter_exist(site_url):
     try:
-        # Fetch the HTML using Selenium
+        # Launch a headless Chrome browser using Selenium
+        # option = webdriver.ChromeOptions()
+        # option.add_argument("--headless")
+        # option.add_argument("--no-sandbox")
+        # driver = webdriver.Chrome(options=option)
+        # driver.set_window_size(2000, 800)
+
+        driver = webdriver.Chrome(options=webdriver.ChromeOptions().add_argument("--headless"))
+
         driver.get(site_url)
         socials_elements = driver.find_elements(By.CLASS_NAME, "sc-f70bb44c-0.sc-7f0f401-0.jSheWZ")
-        social_href = ""  # Initialize social_href outside the loop
+        social_href = ""
         for social_element in socials_elements:
             social_text = social_element.text.split("\n")[-1]
             if social_text == "Twitter":
                 social_href = social_element.find_element(By.TAG_NAME, 'a').get_attribute("href")
-                break  # Stop the loop once Twitter link is found
-        return social_href  # Return social_href at the end
+                break
+        twitter_urls_list.append(social_href)
+        driver.quit()
     except Exception as e:
         print(f"An error occurred: {e}")
-        return ""
 
-twitter_urls_list = []
-urls = ['https://coinmarketcap.com/currencies/bitcoin/', 'https://coinmarketcap.com/currencies/ethereum/']
+# URLs to check
+urls = ['https://coinmarketcap.com/currencies/bitcoin/', 'https://coinmarketcap.com/currencies/ethereum/', 'https://coinmarketcap.com/currencies/bnb/', 'https://coinmarketcap.com/currencies/solana/', 'https://coinmarketcap.com/currencies/xrp/']
+
+# List to store threads
+threads = []
+
+# Create and start a thread for each URL
 for url in urls:
-    twitter_url = check_twitter_exist(url)
-    twitter_urls_list.append(twitter_url)
+    thread = threading.Thread(target=check_twitter_exist, args=(url,))
+    threads.append(thread)
+    thread.start()
 
+# Wait for all threads to finish
+for thread in threads:
+    thread.join()
+
+# Print the list of Twitter URLs
 print(twitter_urls_list)
-# ['', 'https://twitter.com/ethereum', 'https://twitter.com/tether_to', 'https://twitter.com/bnbchain', 'https://twitter.com/solana', 'https://twitter.com/circle', 'https://twitter.com/Ripple', 'https://twitter.com/dogecoin', 'https://twitter.com/cardano']
-# Quit the browser
-driver.quit()
+
