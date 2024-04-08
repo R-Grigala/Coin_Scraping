@@ -29,9 +29,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import threading
 
-twitter_urls_list = []
+twitter_urls_list = [""] * 10
 # Function to check if Twitter link exists on the given site_url
-def check_twitter_exist(site_url):
+def check_twitter_exist(site_url, indx):
     try:
         # Launch a headless Chrome browser using Selenium
         # option = webdriver.ChromeOptions()
@@ -50,26 +50,27 @@ def check_twitter_exist(site_url):
             if social_text == "Twitter":
                 social_href = social_element.find_element(By.TAG_NAME, 'a').get_attribute("href")
                 break
-        twitter_urls_list.append(social_href)
+        twitter_urls_list.insert(indx, social_href)
         driver.quit()
     except Exception as e:
         print(f"An error occurred: {e}")
 
 # URLs to check
-urls = ['https://coinmarketcap.com/currencies/bitcoin/', 'https://coinmarketcap.com/currencies/ethereum/', 'https://coinmarketcap.com/currencies/bnb/', 'https://coinmarketcap.com/currencies/solana/', 'https://coinmarketcap.com/currencies/xrp/']
+urls = ['https://coinmarketcap.com/currencies/bitcoin/', 'https://coinmarketcap.com/currencies/ethereum/', 'https://coinmarketcap.com/currencies/tether/', 'https://coinmarketcap.com/currencies/bnb/', 'https://coinmarketcap.com/currencies/solana/', 'https://coinmarketcap.com/currencies/xrp/', 'https://coinmarketcap.com/currencies/cardano/']
 
 # List to store threads
 threads = []
 
 # Create and start a thread for each URL
-for url in urls:
-    thread = threading.Thread(target=check_twitter_exist, args=(url,))
+for i in range(0, len(urls)):
+    thread = threading.Thread(target=check_twitter_exist, args=(urls[i], i))
     threads.append(thread)
     thread.start()
 
 # Wait for all threads to finish
 for thread in threads:
     thread.join()
+
 
 # Print the list of Twitter URLs
 print(twitter_urls_list)
