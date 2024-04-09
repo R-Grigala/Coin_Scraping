@@ -117,11 +117,13 @@ def main():
     # Print the list of Twitter URLs
     print("Twitter links: ", twitter_urls_list)
 
-    # Combine coin dictionary with URLs
+    # Create a new dictionary containing the merged information with Twitter URLs
     full_result_dict = {}
     for key, value in result_dict.items():
         if 1 <= key <= len(twitter_urls_list):
-            full_result_dict[key] = [value, twitter_urls_list[key - 1]]
+            full_result_dict[key] = [value[0], value[1], twitter_urls_list[key - 1]]
+
+    print(full_result_dict)
 
 
 
