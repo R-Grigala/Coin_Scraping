@@ -101,7 +101,7 @@ def main():
     # Fetch the HTML using Selenium
     site_url = os.getenv("SITE_URL")
     result_dict, urls = coin_urls(site_url)
-    print("Coin Urls:  ", result_dict)
+    print("Finish coin_urls Function")
 
     # Initialize result list
     twitter_urls_list = [''] * len(urls)  
@@ -111,9 +111,9 @@ def main():
     for i in range(num_batches):
         start_index = i * batch_size
         end_index = (i + 1) * batch_size
+        print(f"Batch {i + 1} process Starting.")
         threading_urls(start_index, end_index, urls, twitter_urls_list)
-        print(f"Batch {i + 1} processing completed.")
-
+        
     # Print the list of Twitter URLs
     print("Twitter links: ", twitter_urls_list)
 
