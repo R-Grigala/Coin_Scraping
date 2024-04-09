@@ -69,7 +69,6 @@ step_indx = 6
 
 # Create and start a thread for each URL
 for i in range(0, len(urls), step_indx):
-    print("printi i: ", i)
     for j in range(step_indx):
         index = i + j
         print("index: ", index)
