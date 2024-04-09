@@ -108,20 +108,20 @@ def main():
     batch_size = 20  # Number of URLs to process in each batch
 
     num_batches = len(urls) // batch_size  # Calculate the number of batches
-    # for i in range(num_batches):
-    #     start_index = i * batch_size
-    #     end_index = (i + 1) * batch_size
-    #     threading_urls(start_index, end_index, urls, twitter_urls_list)
-    #     print(f"Batch {i + 1} processing completed.")
+    for i in range(num_batches):
+        start_index = i * batch_size
+        end_index = (i + 1) * batch_size
+        threading_urls(start_index, end_index, urls, twitter_urls_list)
+        print(f"Batch {i + 1} processing completed.")
 
-    # # Print the list of Twitter URLs
-    # print("Twitter links: ", twitter_urls_list)
+    # Print the list of Twitter URLs
+    print("Twitter links: ", twitter_urls_list)
 
     # Combine coin dictionary with URLs
-    # full_result_dict = {}
-    # for key, value in result_dict.items():
-    #     if 1 <= key <= len(twitter_urls_list):
-    #         full_result_dict[key] = [value, twitter_urls_list[key - 1]]
+    full_result_dict = {}
+    for key, value in result_dict.items():
+        if 1 <= key <= len(twitter_urls_list):
+            full_result_dict[key] = [value, twitter_urls_list[key - 1]]
 
 
 
