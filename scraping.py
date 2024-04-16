@@ -112,9 +112,9 @@ def main():
     for i in range(num_batches):
         start_index = i * batch_size
         end_index = (i + 1) * batch_size
-        print(f"Batch {i + 1} process Starting.")
+        print(f"Batch {i + 1} process Starting. processing 20 urls")
         threading_urls(start_index, end_index, urls, twitter_urls_list)
-        print(f"Batch {i + 1} process Finish.")
+        print(f"Batch {i + 1} process Finished.")
         
     # Print the list of Twitter URLs
     # print("Twitter links: ", twitter_urls_list)
