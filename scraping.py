@@ -114,10 +114,10 @@ def main():
         end_index = (i + 1) * batch_size
         print(f"Batch {i + 1} process Starting.")
         threading_urls(start_index, end_index, urls, twitter_urls_list)
-        print(f"Batch {i + 1} process Starting.")
+        print(f"Batch {i + 1} process Finish.")
         
     # Print the list of Twitter URLs
-    print("Twitter links: ", twitter_urls_list)
+    # print("Twitter links: ", twitter_urls_list)
 
     # Create a new dictionary containing the merged information with Twitter URLs
     full_result_dict = {}
